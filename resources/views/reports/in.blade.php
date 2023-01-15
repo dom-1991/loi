@@ -15,20 +15,6 @@
                 </div>
                 <div class="col-12 mt-3 col-md-6">
                     <div class="form-group">
-                        <x-input-label for="type" value="Loại" required="true" />
-                        <x-select-input id="type" class="block mt-1 w-full" :options="$types" name="type" :select="old('type')" />
-                        <x-input-error :messages="$errors->get('type')" class="mt-2" />
-                    </div>
-                </div>
-                <div class="col-12 mt-3 col-md-6">
-                    <div class="form-group">
-                        <x-input-label for="employ_id" value="Nhân viên" />
-                        <x-select-input id="employ_id" class="block mt-1 w-full" :options="$employs" name="employ_id" :select="old('employ_id')" />
-                        <x-input-error :messages="$errors->get('employ_id')" class="mt-2" />
-                    </div>
-                </div>
-                <div class="col-12 mt-3 col-md-6">
-                    <div class="form-group">
                         <x-input-label for="amount" value="Số tiền" required="true" />
                         <x-amount-input class="block mt-1 w-full" name="amount" :value="old('amount')" />
                         <x-input-error :messages="$errors->get('amount')" class="mt-2" />

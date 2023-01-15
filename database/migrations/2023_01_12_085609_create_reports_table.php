@@ -15,7 +15,7 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('type')->default(1);
+            $table->tinyInteger('type')->nullable();
             $table->bigInteger('amount')->default(0);
             $table->text('note')->nullable();
             $table->unsignedBigInteger('employ_id')->nullable();
