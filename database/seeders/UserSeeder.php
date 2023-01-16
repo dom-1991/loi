@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
                 'person_id' => null,
                 'avatar' => null,
                 'status' => UserStatus::ACTIVE,
-                'salary' => 500000,
+                'salary' => 0,
             ],
             [
                 'name' => 'Thuê quán',
