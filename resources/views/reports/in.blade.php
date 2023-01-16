@@ -4,7 +4,7 @@
             @csrf
             <div class="row">
                 <div class="col-12">
-                    <h4>Chi tiêu</h4>
+                    <h4>Thu nhập</h4>
                 </div>
                 <div class="col-12 mt-3 col-md-6">
                     <div class="form-group">

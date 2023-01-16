@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::view('/', 'dashboard')->name('homepage');
+    Route::get('/', [ReportController::class, 'today'])->name('homepage');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -25,6 +26,10 @@ Route::middleware('auth')->group(function () {
         Route::post('out', [ReportController::class, 'saveOut'])->name('out');
         Route::get('in', [ReportController::class, 'in'])->name('in');
         Route::post('in', [ReportController::class, 'saveIn'])->name('in');
+        Route::get('', [ReportController::class, 'index'])->name('index');
+    });
+    Route::prefix('users')->as('users.')->group(function () {
+        Route::get('', [UserController::class, 'index'])->name('index');
     });
 });
 
