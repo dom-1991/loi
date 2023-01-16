@@ -17,6 +17,7 @@ class Report extends Model
         'amount',
         'action',
         'image',
+        'date'
     ];
 
     public function employ ()
