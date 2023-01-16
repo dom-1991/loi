@@ -19,7 +19,8 @@ class ReportController extends Controller
         $types = ReportType::getLabel();
         $employs = User::pluck('name', 'id')->toArray();
         $employs = ['' => '--'] + $employs;
-        return view('reports.out', compact('types', 'employs'));
+        $now = Carbon::now()->format('d/m/Y');
+        return view('reports.out', compact('types', 'employs', 'now'));
     }
 
     public function saveOut(ReportSaveOutRequest $request)
@@ -45,7 +46,8 @@ class ReportController extends Controller
 
     public function in ()
     {
-        return view('reports.in');
+        $now = Carbon::now()->format('d/m/Y');
+        return view('reports.in', compact('now'));
     }
 
     public function saveIn(ReportSaveOutRequest $request)
@@ -72,15 +74,23 @@ class ReportController extends Controller
     public function today ()
     {
         $now = Carbon::now();
+        $yesterday = Carbon::now()->subDay();
         $daysInMonth = $now->daysInMonth;
+        $yesterdayInMonth = $yesterday->daysInMonth;
         $salary = User::where('status', UserStatus::ACTIVE)->sum('salary');
         $sub = round($salary / $daysInMonth, 0);
+        $subYesterday = round($salary / $yesterdayInMonth, 0);
         $add = Report::where('date', $now->format('Y-m-d'))->where('action', ReportAction::ADD)->sum('amount');
+        $addYesterday = Report::where('date', $yesterday->format('Y-m-d'))->where('action', ReportAction::ADD)->sum('amount');
         $sub += Report::where('date', $now->format('Y-m-d'))->where('action', ReportAction::SUB)->sum('amount');
+        $subYesterday += Report::where('date', $yesterday->format('Y-m-d'))->where('action', ReportAction::SUB)->sum('amount');
         $price = $add - $sub;
+        $priceYesterday = $addYesterday - $subYesterday;
+        $priceDiff = $price - $priceYesterday;
         $data = [
             'now' => $now->format('d/m/Y'),
-            'price' => $price
+            'price' => $price,
+            'priceDiff' => $priceDiff,
         ];
 
         return view('dashboard', $data);

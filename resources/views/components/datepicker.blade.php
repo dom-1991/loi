@@ -5,6 +5,6 @@
     <script>
         $("#datepicker").datepicker({
             dateFormat: 'dd/mm/yy',
-        }).datepicker("setDate",new Date());
+        }).datepicker("setDate", "{{ $attributes->get('value') }}");
     </script>
 @endpush

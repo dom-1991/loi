@@ -3,8 +3,23 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <div class="rounded shadow {{ $price < 0 ? 'bg-danger' : 'bg-success' }} p-3">
-                    <p>Ngày: {{ $now }}</p>
-                    <p>Lợi nhuận: {{ number_format($price) }} đồng</p>
+                    <p>Lợi nhuận đã bao gồm lương:</p>
+                    <p>
+                        {{ number_format($price) }} đồng
+                    </p>
+                    @if ($priceDiff >= 0)
+                        <p>
+                            Tăng
+                            <span class="text-primary">{{ number_format($priceDiff) }}</span>
+                            so với hôm qua
+                        </p>
+                    @else
+                        <p>
+                            Giảm
+                            <span class="text-danger">{{ number_format(0 - $priceDiff) }}</span>
+                            so với hôm qua
+                        </p>
+                    @endif
                 </div>
             </div>
             <div class="col-6 mb-3">
@@ -18,7 +33,7 @@
                 </a>
             </div>
             <div class="col-6 mb-3">
-                <a class="rounded shadow btn btn-info w-100 __link" href="{{ route('users.index') }}">
+                <a class="rounded shadow btn btn-light w-100 __link" href="{{ route('users.index') }}">
                     Nhân viên
                 </a>
             </div>

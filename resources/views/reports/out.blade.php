@@ -9,7 +9,7 @@
                 <div class="col-12 mt-3 col-md-6">
                     <div class="form-group">
                         <x-input-label for="datepicker" value="Ngày" required="true" />
-                        <x-datepicker id="datepicker" type="text" class="block mt-1 w-full" name="date" :value="old('date')" />
+                        <x-datepicker id="datepicker" type="text" class="block mt-1 w-full" name="date" :value="old('date', $now)" />
                         <x-input-error :messages="$errors->get('date')" class="mt-2" />
                     </div>
                 </div>
