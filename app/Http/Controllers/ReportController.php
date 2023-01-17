@@ -108,7 +108,7 @@ class ReportController extends Controller
             $toDate = Carbon::createFromFormat('d/m/Y', $request->to_date)->format('Y-m-d');
         }
 
-        $reports = Report::whereBetween('date', [$fromDate, $toDate])->paginate(config('app.paginate'));
+        $reports = Report::with('employ')->whereBetween('date', [$fromDate, $toDate])->paginate(config('app.paginate'));
         $add = Report::whereBetween('date', [$fromDate, $toDate])->where('action', ReportAction::ADD)->sum('amount');
         $sub = Report::whereBetween('date', [$fromDate, $toDate])->where('action', ReportAction::SUB)->sum('amount');
         $price = $add - $sub;

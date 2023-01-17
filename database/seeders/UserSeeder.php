@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::where('id', '>', 0)->delete();
+//        User::where('id', '>', 0)->delete();
         $userData = [
             [
                 'name' => 'Admin',
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                 'person_id' => null,
                 'avatar' => null,
                 'status' => UserStatus::ACTIVE,
-                'salary' => 10000000,
+                'salary' => 8000000,
             ],
             [
                 'name' => 'NV2',
@@ -51,7 +51,29 @@ class UserSeeder extends Seeder
                 'person_id' => null,
                 'avatar' => null,
                 'status' => UserStatus::ACTIVE,
-                'salary' => 6000000,
+                'salary' => 6500000,
+            ],
+            [
+                'name' => 'Công an',
+                'account' => 'ca1',
+                'password' => Hash::make('123456'),
+                'role' => UserRole::POLICE,
+                'date_of_birth' => null,
+                'person_id' => null,
+                'avatar' => null,
+                'status' => UserStatus::ACTIVE,
+                'salary' => 0,
+            ],
+            [
+                'name' => 'Thuê quán',
+                'account' => 'tq1',
+                'password' => Hash::make('123456'),
+                'role' => UserRole::RENT_BUILDING,
+                'date_of_birth' => null,
+                'person_id' => null,
+                'avatar' => null,
+                'status' => UserStatus::ACTIVE,
+                'salary' => 14000000,
             ],
         ];
         User::insert($userData);
