@@ -80,10 +80,12 @@ class ReportController extends Controller
         $salary = User::where('status', UserStatus::ACTIVE)->sum('salary');
         $sub = round($salary / $daysInMonth, 0);
         $subYesterday = round($salary / $yesterdayInMonth, 0);
-        $add = Report::where('date', $now->format('Y-m-d'))->where('action', ReportAction::ADD)->sum('amount');
-        $addYesterday = Report::where('date', $yesterday->format('Y-m-d'))->where('action', ReportAction::ADD)->sum('amount');
-        $sub += Report::where('date', $now->format('Y-m-d'))->where('action', ReportAction::SUB)->sum('amount');
-        $subYesterday += Report::where('date', $yesterday->format('Y-m-d'))->where('action', ReportAction::SUB)->sum('amount');
+        $reportToday = Report::where('date', $now->format('Y-m-d'))->orderByDesc('created_at')->get();
+        $reportYesterday = Report::where('date', $yesterday->format('Y-m-d'))->get();
+        $add = $reportToday->where('action', ReportAction::ADD)->sum('amount');
+        $addYesterday = $reportYesterday->where('action', ReportAction::ADD)->sum('amount');
+        $sub += $reportToday->where('action', ReportAction::SUB)->sum('amount');
+        $subYesterday += $reportYesterday->where('action', ReportAction::SUB)->sum('amount');
         $price = $add - $sub;
         $priceYesterday = $addYesterday - $subYesterday;
         $priceDiff = $price - $priceYesterday;
@@ -91,6 +93,7 @@ class ReportController extends Controller
             'now' => $now->format('d/m/Y'),
             'price' => $price,
             'priceDiff' => $priceDiff,
+            'reportToday' => $reportToday
         ];
 
         return view('dashboard', $data);

@@ -24,7 +24,7 @@
                 </div>
             </form>
             <div class="col-12">
-                <div class="rounded shadow {{ $price < 0 ? 'bg-danger' : 'bg-success' }} p-3">
+                <div class="rounded shadow {{ $price < 0 ? 'bg-danger-50' : 'bg-success-50' }} p-3">
                     <p>Lợi nhuận: {{ number_format($price) }} đồng</p>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         @foreach ($reports as $report)
                         <tr>
                             <td>{{ Carbon\Carbon::parse($report->date)->format('d/m/Y') }}</td>
-                            <td>{{ $report->type ? \App\Enums\ReportType::getLabel()[$report->type] : '--' }}</td>
+                            <td>{{ $report->type ? \App\Enums\ReportType::getLabel()[$report->type] : 'Thu nhập' }}</td>
                             <td>{{ $report->employ ? $report->employ->name : '--' }}</td>
                             <td>
                                 <span class="{{ $report->action == \App\Enums\ReportAction::SUB ? 'text-danger' : 'text-success' }}">

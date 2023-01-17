@@ -22,4 +22,15 @@ final class UserRole extends Enum
             self::RENT_BUILDING => 'Thuê quán',
         ];
     }
+
+    public static function getColor()
+    {
+        return [
+            self::EMPLOYEE => 'bg-primary',
+            self::ADMIN => 'bg-success',
+            self::SUPER_ADMIN => 'bg-success',
+            self::POLICE => 'bg-secondary',
+            self::RENT_BUILDING => 'bg-secondary',
+        ];
+    }
 }

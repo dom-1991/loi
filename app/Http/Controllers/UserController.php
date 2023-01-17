@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index ()
     {
-        $users = User::orderByDesc('status')->orderByDesc('role')->orderByDesc('salary')->get();
+        $users = User::orderByDesc('status')->orderBy('role')->orderByDesc('salary')->get();
         return view('users.index', compact('users'));
     }
 }

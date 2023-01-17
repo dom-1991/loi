@@ -6,10 +6,10 @@
             </div>
             @foreach($users as $user)
                 <div class="col-12 mb-3 col-md-6">
-                    <div class="rounded shadow bg-info p-3">
+                    <div class="rounded shadow {{ \App\Enums\UserRole::getColor()[$user->role] }} p-3">
                         <p>Tên: {{ $user->name }}</p>
                         <p>Vị trí: {{ \App\Enums\UserRole::getLabel()[$user->role] }}</p>
-                        <p>Lương: {{ number_format($user->salary) }} đồng/tháng</p>
+                        <p>Chi trả: <b>{{ number_format($user->salary) }}</b> đồng/tháng</p>
                     </div>
                 </div>
             @endforeach

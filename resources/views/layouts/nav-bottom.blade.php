@@ -1,6 +1,6 @@
 <nav class="nav-bottom bg-white shadow d-flex">
     <div class="__item">
-        <a href="" class="text-center d-flex flex-column {{ request()->routeIs('homepage') ? 'active' : '' }} h-100 justify-center">
+        <a href="{{ route('homepage') }}" class="text-center d-flex flex-column {{ request()->routeIs('homepage') ? 'active' : '' }} h-100 justify-center">
             <i class="fa-solid fa-house"></i>
             <span>Trang chủ</span>
         </a>
