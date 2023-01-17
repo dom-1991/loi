@@ -22,26 +22,6 @@
                     @endif
                 </div>
             </div>
-            <div class="col-6 mb-3">
-                <a class="rounded shadow btn btn-primary w-100 __link" href="{{ route('reports.out') }}">
-                    Chi tiêu
-                </a>
-            </div>
-            <div class="col-6 mb-3">
-                <a class="rounded shadow btn btn-success w-100 __link" href="{{ route('reports.in') }}">
-                    Thu nhập
-                </a>
-            </div>
-            <div class="col-6 mb-3">
-                <a class="rounded shadow btn btn-light w-100 __link" href="{{ route('users.index') }}">
-                    Nhân viên
-                </a>
-            </div>
-            <div class="col-6 mb-3">
-                <a class="rounded shadow btn btn-light w-100 __link" href="{{ route('reports.index') }}">
-                    Thống kê
-                </a>
-            </div>
         </div>
     </div>
 </x-app-layout>
