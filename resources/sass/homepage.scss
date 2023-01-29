@@ -19,6 +19,7 @@
     width: 100%;
     left: 0;
     height: 40px;
+    z-index: 9999;
     a {
         &.active {
             border-top: 2px solid #2563eb;

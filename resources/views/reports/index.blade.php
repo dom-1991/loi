@@ -18,6 +18,12 @@
                             <x-to-datepicker type="text" class="block mt-1 w-full" name="to_date" :value="old('to_date', $toDate)" />
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <x-input-label for="type" value="Loại" required="true" />
+                            <x-select-input id="type" class="block mt-1 w-full" :options="$types" name="type" :select="old('type')" />
+                        </div>
+                    </div>
                     <div class="col-12">
                         <button class="btn btn-primary mb-3">Kiểm tra</button>
                     </div>
@@ -25,7 +31,7 @@
             </form>
             <div class="col-12">
                 <div class="rounded shadow {{ $price < 0 ? 'bg-danger-50' : 'bg-success-50' }} p-3">
-                    <p>Lợi nhuận: {{ number_format($price) }} đồng</p>
+                    <p>Tổng: {{ number_format($price) }} đồng</p>
                 </div>
             </div>
 
@@ -37,12 +43,13 @@
                         <th>Loại</th>
                         <th>Nhân viên</th>
                         <th>Số tiền</th>
+                        <th>Chú thích</th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach ($reports as $report)
                         <tr>
-                            <td>{{ Carbon\Carbon::parse($report->date)->format('d/m/Y') }}</td>
+                            <td>{{ Carbon\Carbon::parse($report->date)->format('d/m') }}</td>
                             <td>{{ $report->type ? \App\Enums\ReportType::getLabel()[$report->type] : 'Thu nhập' }}</td>
                             <td>{{ $report->employ ? $report->employ->name : '--' }}</td>
                             <td>
@@ -50,6 +57,7 @@
                                     {{ $report->action == \App\Enums\ReportAction::SUB ? '-' : '+' }}{{ number_format($report->amount) }}
                                 </span>
                                  đồng</td>
+                            <td>{!! nl2br($report->note) !!}</td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -101,6 +101,8 @@ class ReportController extends Controller
 
     public function index (Request $request)
     {
+        $types = ReportType::getLabel();
+        $types = ['' => '--'] + $types;
         $fromDate = Carbon::now()->firstOfMonth()->format('Y-m-d');
         $toDate = Carbon::now()->format('Y-m-d');
         if ($request->from_date) {
@@ -111,13 +113,18 @@ class ReportController extends Controller
             $toDate = Carbon::createFromFormat('d/m/Y', $request->to_date)->format('Y-m-d');
         }
 
-        $reports = Report::with('employ')->whereBetween('date', [$fromDate, $toDate])->paginate(config('app.paginate'));
-        $add = Report::whereBetween('date', [$fromDate, $toDate])->where('action', ReportAction::ADD)->sum('amount');
-        $sub = Report::whereBetween('date', [$fromDate, $toDate])->where('action', ReportAction::SUB)->sum('amount');
+        $reports = Report::with('employ')->whereBetween('date', [$fromDate, $toDate]);
+        if ($request->type) {
+            $reports->where('type', $request->type);
+        }
+        $allReports = $reports->get();
+        $add = $allReports->where('action', ReportAction::ADD)->sum('amount');
+        $sub = $allReports->where('action', ReportAction::SUB)->sum('amount');
         $price = $add - $sub;
 
         $fromDate = Carbon::parse($fromDate)->format('d/m/Y');
         $toDate = Carbon::parse($toDate)->format('d/m/Y');
-        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate'));
+        $reports = $reports->paginate(config('app.paginate'));
+        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate', 'types'));
     }
 }

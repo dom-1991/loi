@@ -9,6 +9,8 @@ final class ReportType extends Enum
     const FOOD = 1;
     const ITEMS = 2;
     const SALARY = 3;
+    const POLICE = 4;
+    const REPAIR = 5;
     const OTHER = 99;
 
     public static function getLabel ()
@@ -17,6 +19,8 @@ final class ReportType extends Enum
             self::FOOD => 'Thực phẩm',
             self::ITEMS => 'Đồ dùng',
             self::SALARY => 'Lương/Ứng lương',
+            self::POLICE => 'Công an',
+            self::REPAIR => 'Sửa chữa',
             self::OTHER => 'Khác',
         ];
     }
