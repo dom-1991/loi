@@ -8,20 +8,26 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group mb-3">
-                            <x-input-label for="from_date" value="Từ ngày" required="true" />
+                            <x-input-label for="from_date" value="Từ ngày" required="false" />
                             <x-from-datepicker type="text" class="block mt-1 w-full" name="from_date" :value="old('from_date', $fromDate)" />
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group mb-3">
-                            <x-input-label for="to_date" value="Tới ngày" required="true" />
+                            <x-input-label for="to_date" value="Tới ngày" required="false" />
                             <x-to-datepicker type="text" class="block mt-1 w-full" name="to_date" :value="old('to_date', $toDate)" />
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group mb-3">
-                            <x-input-label for="type" value="Loại" required="true" />
+                            <x-input-label for="type" value="Loại" required="false" />
                             <x-select-input id="type" class="block mt-1 w-full" :options="$types" name="type" :select="old('type')" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <x-input-label for="action" value="Thu/Chi" required="false" />
+                            <x-select-input id="action" class="block mt-1 w-full" :options="$actions" name="action" :select="old('action')" />
                         </div>
                     </div>
                     <div class="col-12">

@@ -103,6 +103,8 @@ class ReportController extends Controller
     {
         $types = ReportType::getLabel();
         $types = ['' => '--'] + $types;
+        $actions = ReportAction::getLabel();
+        $actions = ['' => 'Tất cả'] + $actions;
         $fromDate = Carbon::now()->firstOfMonth()->format('Y-m-d');
         $toDate = Carbon::now()->format('Y-m-d');
         if ($request->from_date) {
@@ -117,6 +119,10 @@ class ReportController extends Controller
         if ($request->type) {
             $reports->where('type', $request->type);
         }
+
+        if ($request->action) {
+            $reports->where('action', $request->action);
+        }
         $allReports = $reports->get();
         $add = $allReports->where('action', ReportAction::ADD)->sum('amount');
         $sub = $allReports->where('action', ReportAction::SUB)->sum('amount');
@@ -125,6 +131,6 @@ class ReportController extends Controller
         $fromDate = Carbon::parse($fromDate)->format('d/m/Y');
         $toDate = Carbon::parse($toDate)->format('d/m/Y');
         $reports = $reports->paginate(config('app.paginate'));
-        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate', 'types'));
+        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate', 'types', 'actions'));
     }
 }
