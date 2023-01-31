@@ -113,7 +113,7 @@ class ReportController extends Controller
             $toDate = Carbon::createFromFormat('d/m/Y', $request->to_date)->format('Y-m-d');
         }
 
-        $reports = Report::with('employ')->whereBetween('date', [$fromDate, $toDate]);
+        $reports = Report::with('employ')->whereBetween('date', [$fromDate, $toDate])->orderByDesc('date');
         if ($request->type) {
             $reports->where('type', $request->type);
         }

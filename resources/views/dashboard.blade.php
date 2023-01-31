@@ -32,6 +32,9 @@
                             </span>
                             đồng
                         </p>
+                        <div>
+                            {!! nl2br($report->note) !!}
+                        </div>
                     </div>
                 </div>
             @endforeach
