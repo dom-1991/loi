@@ -18,16 +18,22 @@
                             <x-to-datepicker type="text" class="block mt-1 w-full" name="to_date" :value="old('to_date', $toDate)" />
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group mb-3">
                             <x-input-label for="type" value="Loại" required="false" />
-                            <x-select-input id="type" class="block mt-1 w-full" :options="$types" name="type" :select="old('type')" />
+                            <x-select-input id="type" class="block mt-1 w-full" :options="$types" name="type" :select="old('type', request()->type)" />
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group mb-3">
                             <x-input-label for="action" value="Thu/Chi" required="false" />
-                            <x-select-input id="action" class="block mt-1 w-full" :options="$actions" name="action" :select="old('action')" />
+                            <x-select-input id="action" class="block mt-1 w-full" :options="$actions" name="action" :select="old('action', request()->action)" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group mb-3">
+                            <x-input-label for="payment_type" value="Thanh toán" required="false" />
+                            <x-select-input id="payment_type" class="block mt-1 w-full" :options="$paymentTypes" name="payment_type" :select="old('payment_type', request()->payment_type)" />
                         </div>
                     </div>
                     <div class="col-12">

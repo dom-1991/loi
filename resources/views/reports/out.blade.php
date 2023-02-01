@@ -36,6 +36,13 @@
                 </div>
                 <div class="col-12 mt-3 col-md-6">
                     <div class="form-group">
+                        <x-input-label for="payment_type" value="Thanh toán" required="true" />
+                        <x-select-input id="payment_type" class="block mt-1 w-full" :options="$paymentTypes" name="payment_type" :select="old('payment_type')" />
+                        <x-input-error :messages="$errors->get('payment_type')" class="mt-2" />
+                    </div>
+                </div>
+                <div class="col-12 mt-3 col-md-6">
+                    <div class="form-group">
                         <x-input-label for="image" value="Hình ảnh" />
                         <x-image accept="image/*" type="file" class="block mt-1 w-full" name="image" :value="old('image')" />
                         <x-input-error :messages="$errors->get('image')" class="mt-2" />

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ReportAction;
+use App\Enums\ReportPaymentType;
 use App\Enums\ReportType;
 use App\Enums\UserStatus;
 use App\Http\Requests\ReportSaveOutRequest;
@@ -14,13 +15,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-    public function out ()
+    public function out()
     {
         $types = ReportType::getLabel();
+        $paymentTypes = ReportPaymentType::getLabel();
         $employs = User::pluck('name', 'id')->toArray();
         $employs = ['' => '--'] + $employs;
         $now = Carbon::now()->format('d/m/Y');
-        return view('reports.out', compact('types', 'employs', 'now'));
+        return view('reports.out', compact('types', 'employs', 'now', 'paymentTypes'));
     }
 
     public function saveOut(ReportSaveOutRequest $request)
@@ -32,19 +34,20 @@ class ReportController extends Controller
         }
 
         Report::create([
-           'type' => $request->type,
-           'amount' => $request->amount,
-           'note' => $request->note,
-           'employ_id' => $request->employ_id,
-           'user_id' => auth()->id(),
-           'action' => ReportAction::SUB,
-           'image' => $imageUrl,
-           'date' => Carbon::createFromFormat('d/m/Y', $request->date),
+            'type' => $request->type,
+            'amount' => $request->amount,
+            'note' => $request->note,
+            'employ_id' => $request->employ_id,
+            'user_id' => auth()->id(),
+            'action' => ReportAction::SUB,
+            'image' => $imageUrl,
+            'date' => Carbon::createFromFormat('d/m/Y', $request->date),
+            'payment_type' => $request->payment_type
         ]);
         return redirect()->route('homepage');
     }
 
-    public function in ()
+    public function in()
     {
         $now = Carbon::now()->format('d/m/Y');
         return view('reports.in', compact('now'));
@@ -71,40 +74,35 @@ class ReportController extends Controller
         return redirect()->route('homepage');
     }
 
-    public function today ()
+    public function today()
     {
         $now = Carbon::now();
-        $yesterday = Carbon::now()->subDay();
         $daysInMonth = $now->daysInMonth;
-        $yesterdayInMonth = $yesterday->daysInMonth;
         $salary = User::where('status', UserStatus::ACTIVE)->sum('salary');
         $sub = round($salary / $daysInMonth, 0);
-        $subYesterday = round($salary / $yesterdayInMonth, 0);
         $reportToday = Report::where('date', $now->format('Y-m-d'))->orderByDesc('created_at')->get();
-        $reportYesterday = Report::where('date', $yesterday->format('Y-m-d'))->get();
         $add = $reportToday->where('action', ReportAction::ADD)->sum('amount');
-        $addYesterday = $reportYesterday->where('action', ReportAction::ADD)->sum('amount');
-        $sub += $reportToday->where('action', ReportAction::SUB)->sum('amount');
-        $subYesterday += $reportYesterday->where('action', ReportAction::SUB)->sum('amount');
+        $sub += $reportToday->where('action', ReportAction::SUB)
+            ->where('payment_type', ReportPaymentType::BANK)
+            ->sum('amount');
         $price = $add - $sub;
-        $priceYesterday = $addYesterday - $subYesterday;
-        $priceDiff = $price - $priceYesterday;
         $data = [
             'now' => $now->format('d/m/Y'),
             'price' => $price,
-            'priceDiff' => $priceDiff,
             'reportToday' => $reportToday
         ];
 
         return view('dashboard', $data);
     }
 
-    public function index (Request $request)
+    public function index(Request $request)
     {
         $types = ReportType::getLabel();
         $types = ['' => '--'] + $types;
         $actions = ReportAction::getLabel();
         $actions = ['' => 'Tất cả'] + $actions;
+        $paymentTypes = ReportPaymentType::getLabel();
+        $paymentTypes = ['' => 'Tất cả'] + $paymentTypes;
         $fromDate = Carbon::now()->firstOfMonth()->format('Y-m-d');
         $toDate = Carbon::now()->format('Y-m-d');
         if ($request->from_date) {
@@ -123,14 +121,24 @@ class ReportController extends Controller
         if ($request->action) {
             $reports->where('action', $request->action);
         }
+
+        if ($request->payment_type) {
+            $reports->where('payment_type', $request->payment_type);
+        }
         $allReports = $reports->get();
         $add = $allReports->where('action', ReportAction::ADD)->sum('amount');
-        $sub = $allReports->where('action', ReportAction::SUB)->sum('amount');
+        if (!$request->payment_type) {
+            $sub = $allReports->where('action', ReportAction::SUB)
+                ->where('payment_type', ReportPaymentType::BANK)
+                ->sum('amount');
+        } else {
+            $sub = $allReports->where('action', ReportAction::SUB)
+                ->sum('amount');
+        }
         $price = $add - $sub;
-
         $fromDate = Carbon::parse($fromDate)->format('d/m/Y');
         $toDate = Carbon::parse($toDate)->format('d/m/Y');
         $reports = $reports->paginate(config('app.paginate'));
-        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate', 'types', 'actions'));
+        return view('reports.index', compact('reports', 'price', 'fromDate', 'toDate', 'types', 'actions', 'paymentTypes'));
     }
 }
