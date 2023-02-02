@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('report:telegram')->everyMinute();
+         $schedule->command('report:telegram')->everyFiveMinutes();
     }
 
     /**
