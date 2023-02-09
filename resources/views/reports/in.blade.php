@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-3 col-md-6 mb-4">
-                    <button class="btn btn-primary">Lưu</button>
+                    <button class="btn btn-primary submit">Lưu</button>
                 </div>
             </div>
         </form>
