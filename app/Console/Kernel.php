@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('report:telegram')->at('22:30');
+         $schedule->command('report:telegram')->at('23:59');
     }
 
     /**

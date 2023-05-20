@@ -129,7 +129,6 @@ class ReportController extends Controller
         $add = $allReports->where('action', ReportAction::ADD)->sum('amount');
         if (!$request->payment_type) {
             $sub = $allReports->where('action', ReportAction::SUB)
-                ->where('payment_type', ReportPaymentType::BANK)
                 ->sum('amount');
         } else {
             $sub = $allReports->where('action', ReportAction::SUB)
